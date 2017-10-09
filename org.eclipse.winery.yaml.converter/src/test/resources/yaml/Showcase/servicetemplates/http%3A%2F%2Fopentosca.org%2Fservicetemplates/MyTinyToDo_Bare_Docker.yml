@@ -1,0 +1,29 @@
+tosca_definitions_version: tosca_simple_yaml_1_1
+
+imports:
+  - DockerEngine:
+      file: nodetypes/http%3A%2F%2Fopentosca.org%2Fnodetypes/DockerEngine.yml
+  - MyTinyToDo_Bare_Docker:
+      file: nodetypes/http%3A%2F%2Fopentosca.org%2Fnodetypes/MyTinyToDoDockerContainer.yml    
+  - relationship_types:
+      file: relationshiptypes/http%3A%2F%2Fdocs.oasis-open.org%2Ftosca%2Fns%2F2011%2F12%2FToscaBaseTypes/HostedOn.yml
+
+topology_template:
+  node_templates:
+    MyTinyToDoDockerContainer:
+      type: MyTinyToDoDockerContainer
+      properties:
+        ContainerPort: 80
+        SSHPort:
+        ContainerID:
+        ContainerIP:
+      requirements:
+        - engine: DockerEngine
+    DockerEngine:
+      type: DockerEngine
+      properties:
+        DockerEngineURL: { get_input: DockerEngineURL }
+        DockerEngineCertificate:
+  relationship_templates:
+    con_17:
+      type: HostedOn

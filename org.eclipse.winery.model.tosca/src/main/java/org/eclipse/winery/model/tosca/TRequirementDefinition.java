@@ -282,7 +282,7 @@ public class TRequirementDefinition extends TExtensibleElements {
         }
     }
 
-    public static class Builder extends TExtensibleElements.Builder {
+    public static class Builder extends TExtensibleElements.Builder<Builder> {
         private final String name;
         private final QName requirementType;
 
@@ -341,6 +341,11 @@ public class TRequirementDefinition extends TExtensibleElements {
             TRequirementDefinition.Constraints tmp = new TRequirementDefinition.Constraints();
             tmp.getConstraint().add(constraints);
             return addConstraints(tmp);
+        }
+
+        @Override
+        public Builder self() {
+            return this;
         }
 
         public TRequirementDefinition build() {

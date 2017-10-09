@@ -141,11 +141,6 @@ public abstract class TEntityTemplate extends HasId implements HasType, HasName 
         return type;
     }
 
-    @Override
-    public QName getTypeAsQName() {
-        return this.getType();
-    }
-
     /**
      * Sets the value of the type property.
      *
@@ -153,6 +148,11 @@ public abstract class TEntityTemplate extends HasId implements HasType, HasName 
      */
     public void setType(QName value) {
         this.type = value;
+    }
+
+    @Override
+    public QName getTypeAsQName() {
+        return this.getType();
     }
 
     /**
@@ -286,7 +286,7 @@ public abstract class TEntityTemplate extends HasId implements HasType, HasName 
         }
     }
 
-    public static class Builder extends HasId.Builder {
+    public abstract static class Builder<T extends Builder<T>> extends HasId.Builder<T> {
         private final QName type;
         private TEntityTemplate.Properties properties;
         private TEntityTemplate.PropertyConstraints propertyConstraints;
@@ -303,19 +303,19 @@ public abstract class TEntityTemplate extends HasId implements HasType, HasName 
             this.addPropertyConstraints(entityTemplate.getPropertyConstraints());
         }
 
-        public Builder setProperties(TEntityTemplate.Properties properties) {
+        public T setProperties(TEntityTemplate.Properties properties) {
             this.properties = properties;
-            return this;
+            return self();
         }
 
-        public Builder setPropertyConstraints(TEntityTemplate.PropertyConstraints propertyConstraints) {
+        public T setPropertyConstraints(TEntityTemplate.PropertyConstraints propertyConstraints) {
             this.propertyConstraints = propertyConstraints;
-            return this;
+            return self();
         }
 
-        public Builder addPropertyConstraints(TEntityTemplate.PropertyConstraints propertyConstraints) {
+        public T addPropertyConstraints(TEntityTemplate.PropertyConstraints propertyConstraints) {
             if (propertyConstraints == null || propertyConstraints.getPropertyConstraint().isEmpty()) {
-                return this;
+                return self();
             }
 
             if (this.propertyConstraints == null) {
@@ -323,12 +323,12 @@ public abstract class TEntityTemplate extends HasId implements HasType, HasName 
             } else {
                 this.propertyConstraints.getPropertyConstraint().addAll(propertyConstraints.getPropertyConstraint());
             }
-            return this;
+            return self();
         }
 
-        public Builder addPropertyConstraints(List<TPropertyConstraint> propertyConstraints) {
+        public T addPropertyConstraints(List<TPropertyConstraint> propertyConstraints) {
             if (propertyConstraints == null) {
-                return this;
+                return self();
             }
 
             TEntityTemplate.PropertyConstraints tmp = new TEntityTemplate.PropertyConstraints();
@@ -336,9 +336,9 @@ public abstract class TEntityTemplate extends HasId implements HasType, HasName 
             return addPropertyConstraints(tmp);
         }
 
-        public Builder addPropertyConstraints(TPropertyConstraint propertyConstraints) {
+        public T addPropertyConstraints(TPropertyConstraint propertyConstraints) {
             if (propertyConstraints == null) {
-                return this;
+                return self();
             }
 
             TEntityTemplate.PropertyConstraints tmp = new TEntityTemplate.PropertyConstraints();

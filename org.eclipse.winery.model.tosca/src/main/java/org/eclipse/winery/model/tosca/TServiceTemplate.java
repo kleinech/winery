@@ -213,7 +213,7 @@ public class TServiceTemplate extends HasId implements HasName, HasTargetNamespa
         this.substitutableNodeType = value;
     }
 
-    public static class Builder extends HasId.Builder {
+    public static class Builder extends HasId.Builder<Builder> {
         private final TTopologyTemplate topologyTemplate;
 
         private TTags tags;
@@ -289,6 +289,11 @@ public class TServiceTemplate extends HasId implements HasName, HasTargetNamespa
             TTags tmp = new TTags();
             tmp.getTag().add(tags);
             return addTags(tmp);
+        }
+
+        @Override
+        public Builder self() {
+            return this;
         }
 
         public TServiceTemplate build() {

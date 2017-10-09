@@ -1,9 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2017 University of Stuttgart.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License v2.0
  * and the Apache License 2.0 which both accompany this distribution,
- * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and are available at http://www.eclipse.org/legal/epl-v20.html
  * and http://www.apache.org/licenses/LICENSE-2.0
  *
  * Contributors:
@@ -15,7 +15,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.nio.file.Path;
 
 import org.eclipse.winery.model.tosca.yaml.TImportDefinition;
 import org.eclipse.winery.model.tosca.yaml.TServiceTemplate;
@@ -43,17 +42,6 @@ public class Reader {
         this.yaml = new Yaml();
     }
 
-    /**
-     * @param fileName the file to parse
-     */
-    public TServiceTemplate parse(Path fileName) throws MultiException {
-        return this.readServiceTemplate(fileName.getParent().toString(), fileName.getFileName().toString(), Namespaces.DEFAULT_NS);
-    }
-
-    /**
-     * @deprecated Use {@link Reader#parse(java.nio.file.Path)}
-     */
-    @Deprecated
     public TServiceTemplate parse(String path, String file) throws MultiException {
         return this.readServiceTemplate(path, file, Namespaces.DEFAULT_NS);
     }

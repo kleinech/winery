@@ -64,6 +64,7 @@ export class SectionComponent implements OnInit, OnDestroy {
     @ViewChild('removeElementModal') removeElementModal: ModalDirective;
     @ViewChild('addComponentForm') addComponentForm: NgForm;
     @ViewChild('addCsarModal') addCsarModal: ModalDirective;
+    @ViewChild('addYamlModal') addYamlModal: ModalDirective;
 
     constructor(private route: ActivatedRoute,
                 private change: ChangeDetectorRef,

@@ -64,7 +64,7 @@ public abstract class HasId extends TExtensibleElements implements HasIdInIdOrNa
         this.id = value;
     }
 
-    public static class Builder extends TExtensibleElements.Builder {
+    public abstract static class Builder<T extends Builder<T>> extends TExtensibleElements.Builder<T> {
         private final String id;
 
         public Builder(String id) {

@@ -83,12 +83,17 @@ public class TRequirement extends RelationshipSourceOrTarget {
         return "requirement";
     }
 
-    public static class Builder extends RelationshipSourceOrTarget.Builder {
+    public static class Builder extends RelationshipSourceOrTarget.Builder<Builder> {
         private final String name;
 
         public Builder(String id, QName type) {
             super(id, type);
             this.name = id;
+        }
+
+        @Override
+        public Builder self() {
+            return this;
         }
 
         public TRequirement build() {

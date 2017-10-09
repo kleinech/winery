@@ -43,13 +43,18 @@ public class TArtifactType extends TEntityType {
         super(builder);
     }
 
-    public static class Builder extends TEntityType.Builder {
+    public static class Builder extends TEntityType.Builder<Builder> {
         public Builder(String name) {
             super(name);
         }
 
         public Builder(TEntityType entityType) {
             super(entityType);
+        }
+
+        @Override
+        public Builder self() {
+            return this;
         }
 
         public TArtifactType build() {

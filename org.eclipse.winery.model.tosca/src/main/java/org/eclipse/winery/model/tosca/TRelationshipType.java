@@ -433,7 +433,7 @@ public class TRelationshipType extends TEntityType {
         }
     }
 
-    public static class Builder extends TEntityType.Builder {
+    public static class Builder extends TEntityType.Builder<Builder> {
         private TTopologyElementInstanceStates instanceStates;
         private SourceInterfaces sourceInterfaces;
         private TargetInterfaces targetInterfaces;
@@ -557,6 +557,11 @@ public class TRelationshipType extends TEntityType {
             TRelationshipType.TargetInterfaces tmp = new TRelationshipType.TargetInterfaces();
             tmp.getInterface().add(targetInterfaces);
             return addTargetInterfaces(tmp);
+        }
+
+        @Override
+        public Builder self() {
+            return this;
         }
 
         public TRelationshipType build() {

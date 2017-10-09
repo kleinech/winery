@@ -136,7 +136,7 @@ public class TPolicy extends TExtensibleElements {
         this.policyRef = value;
     }
 
-    public static class Builder extends TExtensibleElements.Builder {
+    public static class Builder extends TExtensibleElements.Builder<Builder> {
         private final QName policyType;
         private String name;
         private QName policyRef;
@@ -152,6 +152,11 @@ public class TPolicy extends TExtensibleElements {
 
         public Builder setPolicyRef(QName policyRef) {
             this.policyRef = policyRef;
+            return this;
+        }
+
+        @Override
+        public Builder self() {
             return this;
         }
 

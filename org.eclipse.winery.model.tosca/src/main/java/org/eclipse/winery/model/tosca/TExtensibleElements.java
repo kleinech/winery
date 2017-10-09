@@ -56,26 +56,26 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "tExtensibleElements", propOrder = {
-        "documentation",
-        "any"
+    "documentation",
+    "any"
 })
 @XmlSeeAlso({
-        TImport.class,
-        TServiceTemplate.class,
-        TEntityTypeImplementation.class,
-        TOperation.class,
-        TRequirementDefinition.class,
-        TExtension.class,
-        TCapabilityDefinition.class,
-        TExtensions.class,
-        TDeploymentArtifact.class,
-        TPlan.class,
-        TEntityTemplate.class,
-        TEntityType.class,
-        TPolicy.class,
-        TImplementationArtifact.class,
-        TTopologyTemplate.class,
-        TDefinitions.class
+    TImport.class,
+    TServiceTemplate.class,
+    TEntityTypeImplementation.class,
+    TOperation.class,
+    TRequirementDefinition.class,
+    TExtension.class,
+    TCapabilityDefinition.class,
+    TExtensions.class,
+    TDeploymentArtifact.class,
+    TPlan.class,
+    TEntityTemplate.class,
+    TEntityType.class,
+    TPolicy.class,
+    TImplementationArtifact.class,
+    TTopologyTemplate.class,
+    TDefinitions.class
 })
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class TExtensibleElements {
@@ -101,8 +101,8 @@ public class TExtensibleElements {
         if (!(o instanceof TExtensibleElements)) return false;
         TExtensibleElements that = (TExtensibleElements) o;
         return Objects.equals(documentation, that.documentation) &&
-                Objects.equals(any, that.any) &&
-                Objects.equals(otherAttributes, that.otherAttributes);
+            Objects.equals(any, that.any) &&
+            Objects.equals(otherAttributes, that.otherAttributes);
     }
 
     @Override
@@ -184,7 +184,7 @@ public class TExtensibleElements {
         return otherAttributes;
     }
 
-    public static class Builder {
+    public abstract static class Builder<T extends Builder<T>> {
         private List<TDocumentation> documentation;
         private List<Object> any;
         private Map<QName, String> otherAttributes;
@@ -192,7 +192,7 @@ public class TExtensibleElements {
         public Builder() {
 
         }
-        
+
         public Builder(Builder builder) {
             this.documentation = builder.documentation;
             this.any = builder.any;
@@ -205,24 +205,24 @@ public class TExtensibleElements {
             this.addOtherAttributes(extensibleElements.getOtherAttributes());
         }
 
-        public Builder setDocumentation(List<TDocumentation> documentation) {
+        public T setDocumentation(List<TDocumentation> documentation) {
             this.documentation = documentation;
-            return this;
+            return self();
         }
 
-        public Builder setAny(List<Object> any) {
+        public T setAny(List<Object> any) {
             this.any = any;
-            return this;
+            return self();
         }
 
-        public Builder setOtherAttributes(Map<QName, String> otherAttributes) {
+        public T setOtherAttributes(Map<QName, String> otherAttributes) {
             this.otherAttributes = otherAttributes;
-            return this;
+            return self();
         }
 
-        public Builder addDocumentation(List<TDocumentation> documentation) {
+        public T addDocumentation(List<TDocumentation> documentation) {
             if (documentation == null) {
-                return this;
+                return self();
             }
 
             if (this.documentation == null) {
@@ -230,12 +230,12 @@ public class TExtensibleElements {
             } else {
                 this.documentation.addAll(documentation);
             }
-            return this;
+            return self();
         }
 
-        public Builder addDocumentation(TDocumentation documentation) {
+        public T addDocumentation(TDocumentation documentation) {
             if (documentation == null) {
-                return this;
+                return self();
             }
 
             List<TDocumentation> tmp = new ArrayList<>();
@@ -243,30 +243,30 @@ public class TExtensibleElements {
             return addDocumentation(tmp);
         }
 
-        public Builder addDocumentation(String documentation) {
+        public T addDocumentation(String documentation) {
             if (documentation == null || documentation.length() == 0) {
-                return this;
+                return self();
             }
 
             TDocumentation tmp = new TDocumentation();
             tmp.getContent().add(documentation);
-            return this.addDocumentation(tmp);
+            return self().addDocumentation(tmp);
         }
 
-        public Builder addDocumentation(Map<String, String> documentation) {
+        public T addDocumentation(Map<String, String> documentation) {
             if (documentation == null) {
-                return this;
+                return self();
             }
 
             for (Map.Entry<String, String> entry : documentation.entrySet()) {
                 this.addDocumentation(entry.getKey() + ": " + entry.getValue());
             }
-            return this;
+            return self();
         }
 
-        public Builder addAny(List<Object> any) {
+        public T addAny(List<Object> any) {
             if (any == null || any.isEmpty()) {
-                return this;
+                return self();
             }
 
             if (this.any == null) {
@@ -274,12 +274,12 @@ public class TExtensibleElements {
             } else {
                 this.any.addAll(any);
             }
-            return this;
+            return self();
         }
 
-        public Builder addAny(Object any) {
+        public T addAny(Object any) {
             if (any == null) {
-                return this;
+                return self();
             }
 
             List<Object> tmp = new ArrayList<>();
@@ -287,9 +287,9 @@ public class TExtensibleElements {
             return addAny(tmp);
         }
 
-        public Builder addOtherAttributes(Map<QName, String> otherAttributes) {
+        public T addOtherAttributes(Map<QName, String> otherAttributes) {
             if (otherAttributes == null || otherAttributes.isEmpty()) {
-                return this;
+                return self();
             }
 
             if (this.otherAttributes == null) {
@@ -297,18 +297,20 @@ public class TExtensibleElements {
             } else {
                 this.otherAttributes.putAll(otherAttributes);
             }
-            return this;
+            return self();
         }
 
-        public Builder addOtherAttributes(QName key, String value) {
+        public T addOtherAttributes(QName key, String value) {
             if (key == null) {
-                return this;
+                return self();
             }
 
             LinkedHashMap<QName, String> map = new LinkedHashMap<>();
             map.put(key, value);
             return addOtherAttributes(map);
         }
+
+        public abstract T self();
 
         public TExtensibleElements build() {
             return new TExtensibleElements(this);

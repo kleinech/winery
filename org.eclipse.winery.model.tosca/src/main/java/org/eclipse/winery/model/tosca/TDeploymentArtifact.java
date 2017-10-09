@@ -135,7 +135,7 @@ public class TDeploymentArtifact extends TExtensibleElements {
         this.artifactRef = value;
     }
 
-    public static class Builder extends TExtensibleElements.Builder {
+    public static class Builder extends TExtensibleElements.Builder<Builder> {
         private final String name;
         private final QName artifactType;
         private QName artifactRef;
@@ -147,6 +147,11 @@ public class TDeploymentArtifact extends TExtensibleElements {
 
         public Builder setArtifactRef(QName artifactRef) {
             this.artifactRef = artifactRef;
+            return this;
+        }
+
+        @Override
+        public Builder self() {
             return this;
         }
 

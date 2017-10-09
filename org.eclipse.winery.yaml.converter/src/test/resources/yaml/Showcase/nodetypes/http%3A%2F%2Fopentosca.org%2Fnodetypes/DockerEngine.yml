@@ -1,0 +1,97 @@
+tosca_definitions_version: tosca_simple_yaml_1_1
+
+interface_types:
+  InterfaceDockerEngine:
+    version: 1.0.0
+
+artifact_types:
+  WAR:
+    description: WAR artifact type
+    properties:
+      ServiceEndpoint:
+        type: string
+      PortType:
+        type: string
+      InvocationType:
+        type: string
+    metadata:
+      targetNamespace: http://www.example.com/ToscaTypes
+    version: 1.0.0alpha-0
+
+node_types:
+  DockerEngine:
+    properties:
+      DockerEngineURL:
+        type: string
+      DockerEngineCertificate:
+        type: string
+    artifacts:
+      DockerEngine_InterfaceDockerEngine_IA:
+        type: WAR
+        files: 
+          - nodetypes/http%3A%2F%2Fopentosca.org%2Fnodetypes/DockerEngineArtifacts/org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine.war
+          - nodetypes/http%3A%2F%2Fopentosca.org%2Fnodetypes/DockerEngineArtifacts/org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine.zip
+        properties:
+          ServiceEndpoint: /services/org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEnginePort
+          PortType: "{http://opentosca.org/nodetypes}org_opentosca_NodeTypes_DockerEngine__InterfaceDockerEngine"
+          InvocationType: SOAP/HTTP
+    interfaces:
+      InterfaceDockerEngine:
+        type: InterfaceDockerEngine
+        startContainer:
+          inputs:
+            DockerEngineURL:
+              type: string
+              required: true
+            DockerEngineCertificate:
+              type: string
+              required: true
+            ContainerImage:
+              type: string
+              required: true
+            ContainerPorts:
+              type: string
+              required: false
+            ContainerEnv:
+              type: string
+              required: false
+          outputs:
+            ContainerPorts: 
+              type: string
+              required: false
+            ContainerID:
+              type: string
+              required: false
+            ContainerIP:
+              type: string
+              required: false
+            SSHPort:
+              type: string
+              required: false
+        removeContainer:
+          inputs:
+            DockerEngineURL:
+              type: string
+              required: true
+            DockerEngineCertificate:
+              type: string
+              required: true
+            ContainerID:
+              type: string
+              required: true
+          outputs:
+            Result:
+              type: string
+              required: true
+      http://www.example.com/interfaces/lifecycle:
+        install:
+          description: Install step
+        configure:
+          inputs:
+            VMIP:
+              type: string
+              required: true
+          outputs:
+            DockerEngineURL:
+              type: string
+              required: true

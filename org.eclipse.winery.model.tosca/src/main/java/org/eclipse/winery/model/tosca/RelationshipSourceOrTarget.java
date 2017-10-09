@@ -23,13 +23,13 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 // see https://stackoverflow.com/q/44789227/873282 for an explanation for this solution
 @JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        include = JsonTypeInfo.As.EXISTING_PROPERTY,
-        property = "fakeJacksonType")
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.EXISTING_PROPERTY,
+    property = "fakeJacksonType")
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = TRequirement.class, name = "requirement"),
-        @JsonSubTypes.Type(value = TCapability.class, name = "capability"),
-        @JsonSubTypes.Type(value = TNodeTemplate.class, name = "nodetemplate")
+    @JsonSubTypes.Type(value = TRequirement.class, name = "requirement"),
+    @JsonSubTypes.Type(value = TCapability.class, name = "capability"),
+    @JsonSubTypes.Type(value = TNodeTemplate.class, name = "nodetemplate")
 })
 public abstract class RelationshipSourceOrTarget extends TEntityTemplate {
 
@@ -48,7 +48,7 @@ public abstract class RelationshipSourceOrTarget extends TEntityTemplate {
     @JsonIgnore
     public abstract String getFakeJacksonType();
 
-    public static class Builder extends TEntityTemplate.Builder {
+    public abstract static class Builder<T extends Builder<T>> extends TEntityTemplate.Builder<T> {
         public Builder(String id, QName type) {
             super(id, type);
         }

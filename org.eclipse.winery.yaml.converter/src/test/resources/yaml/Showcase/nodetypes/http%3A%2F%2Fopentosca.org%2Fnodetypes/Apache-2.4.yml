@@ -1,0 +1,27 @@
+tosca_definitions_version: tosca_simple_yaml_1_1
+
+imports:
+  - capability_type:
+      file: capabilitytypes/http%3A%2F%2Fopentosca.org%2Fcapabilitytypes/Apache-2.4-Capability.yml
+      namespace_uri: http://opentosca.org/capabilitytypes
+      namespace_prefix: ns1
+
+node_types:
+  Apache-2.4:
+    description: This Node Type and its scripts rely on apt-get and, thus, on the available components in the repository
+    capabilities: 
+      WebServerCap:
+        type: ns1:Apache-2.4-Capability
+        occurrences: [ 0, UNBOUNDED ]
+    interfaces:
+      http://www.example.com/interfaces/lifecycle:
+        install:
+          description: Install operation
+        configure:
+          description: Configure operation
+        start:
+          description: Start operation
+        stop:
+          description: Stop operation
+        uninstall:
+          description: Uninstall operation

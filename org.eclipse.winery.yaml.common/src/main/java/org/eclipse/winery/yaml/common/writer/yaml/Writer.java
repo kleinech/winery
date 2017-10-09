@@ -1,9 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2017 University of Stuttgart.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License v2.0
  * and the Apache License 2.0 which both accompany this distribution,
- * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and are available at http://www.eclipse.org/legal/epl-v20.html
  * and http://www.apache.org/licenses/LICENSE-2.0
  *
  * Contributors:
@@ -11,9 +11,11 @@
  *******************************************************************************/
 package org.eclipse.winery.yaml.common.writer.yaml;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -72,7 +74,13 @@ import org.eclipse.winery.model.tosca.yaml.visitor.VisitorNode;
 import org.eclipse.winery.yaml.common.Namespaces;
 import org.eclipse.winery.yaml.common.writer.yaml.support.Printer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class Writer extends AbstractVisitor<Printer, Writer.Parameter> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractVisitor.class);
+
     private final int INDENT_SIZE;
 
     public Writer() {
@@ -83,17 +91,27 @@ public class Writer extends AbstractVisitor<Printer, Writer.Parameter> {
         this.INDENT_SIZE = indentSize;
     }
 
-    public void write(TServiceTemplate serviceTemplate, String fileName) {
+    public void write(TServiceTemplate serviceTemplate, Path fileName) {
+        Objects.requireNonNull(serviceTemplate);
         try {
-            File file = new File(fileName);
-            file.getParentFile().mkdir();
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(this.visit(serviceTemplate, new Parameter(0)).toString());
-            fileWriter.flush();
-            fileWriter.close();
+            Files.createDirectories(Objects.requireNonNull(fileName).getParent());
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.debug("Could not create directory", e);
+            return;
         }
+        try (FileWriter fileWriter = new FileWriter(fileName.toFile())) {
+            fileWriter.write(this.visit(serviceTemplate, new Parameter(0)).toString());
+        } catch (IOException e) {
+            LOGGER.debug("Could write to file", e);
+        }
+    }
+
+    /**
+     * @deprecated Use {@link Writer#write(org.eclipse.winery.model.tosca.yaml.TServiceTemplate, java.nio.file.Path)}
+     */
+    @Deprecated
+    public void write(TServiceTemplate serviceTemplate, String fileName) {
+        this.write(serviceTemplate, Paths.get(fileName));
     }
 
     public Printer visit(TServiceTemplate node, Parameter parameter) {

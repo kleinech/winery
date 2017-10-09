@@ -45,9 +45,14 @@ public class Definitions extends TDefinitions {
         super(builder);
     }
 
-    public static class Builder extends TDefinitions.Builder {
+    public static class Builder extends TDefinitions.Builder<Builder> {
         public Builder(String id, String target_namespace) {
             super(id, target_namespace);
+        }
+
+        @Override
+        public Builder self() {
+            return this;
         }
 
         public Definitions build() {

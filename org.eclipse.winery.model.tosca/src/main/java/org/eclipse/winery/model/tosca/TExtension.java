@@ -65,7 +65,7 @@ public class TExtension extends TExtensibleElements {
         if (!super.equals(o)) return false;
         TExtension that = (TExtension) o;
         return Objects.equals(namespace, that.namespace) &&
-                mustUnderstand == that.mustUnderstand;
+            mustUnderstand == that.mustUnderstand;
     }
 
     @Override
@@ -115,7 +115,7 @@ public class TExtension extends TExtensibleElements {
         this.mustUnderstand = value;
     }
 
-    public static class Builder extends TExtensibleElements.Builder {
+    public static class Builder extends TExtensibleElements.Builder<Builder> {
         private final String namespace;
         private TBoolean mustUnderstand;
 
@@ -134,6 +134,11 @@ public class TExtension extends TExtensibleElements {
             }
 
             this.mustUnderstand = mustUnderstand ? TBoolean.YES : TBoolean.NO;
+            return this;
+        }
+
+        @Override
+        public Builder self() {
             return this;
         }
 

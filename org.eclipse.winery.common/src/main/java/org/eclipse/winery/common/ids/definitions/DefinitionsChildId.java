@@ -144,4 +144,6 @@ public abstract class DefinitionsChildId extends GenericId {
 			throw new IllegalStateException();
 		}
 	}
+
+	public abstract String getGroup();
 }

@@ -118,7 +118,7 @@ public class TPolicyType extends TEntityType {
         this.policyLanguage = value;
     }
 
-    public static class Builder extends TEntityType.Builder {
+    public static class Builder extends TEntityType.Builder<Builder> {
         private TAppliesTo appliesTo;
         private String policyLanguage;
 
@@ -137,6 +137,11 @@ public class TPolicyType extends TEntityType {
 
         public Builder setPolicyLanguage(String policyLanguage) {
             this.policyLanguage = policyLanguage;
+            return this;
+        }
+
+        @Override
+        public Builder self() {
             return this;
         }
 

@@ -1,9 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2017 University of Stuttgart.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License v2.0
  * and the Apache License 2.0 which both accompany this distribution,
- * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and are available at http://www.eclipse.org/legal/epl-v20.html
  * and http://www.apache.org/licenses/LICENSE-2.0
  *
  * Contributors:
@@ -68,6 +68,7 @@ public class Utils {
             ZipOutputStream zos = new ZipOutputStream(fos)
         ) {
             Files.walk(path)
+                .filter(Files::isRegularFile)
                 .forEach(file -> {
                     try {
                         zos.putNextEntry(new ZipEntry(path.relativize(file).toString()));
@@ -86,12 +87,20 @@ public class Utils {
 
     public static File getTmpDir(String name) {
         try {
-            File file = new File(Files.createTempDirectory("winery").toString() + File.separator + name);
+            Path path = Files.createTempDirectory("winery");
+            File file = new File(path.getParent().toString() + File.separator + "winery" + File.separator + name);
+            path.toFile().delete();
+
+            if (file.exists()) deleteTmpDir(file);
             if (!file.exists()) file.mkdirs();
             return file;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void deleteTmpDir(File file) {
+        FileUtils.forceDelete(file.toPath());
     }
 }

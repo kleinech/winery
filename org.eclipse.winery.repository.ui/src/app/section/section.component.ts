@@ -64,6 +64,7 @@ export class SectionComponent implements OnInit, OnDestroy {
     @ViewChild('removeElementModal') removeElementModal: ModalDirective;
     @ViewChild('addComponentForm') addComponentForm: NgForm;
     @ViewChild('addCsarModal') addCsarModal: ModalDirective;
+    @ViewChild('addYamlModal') addYamlModal: ModalDirective;
 
     constructor(private route: ActivatedRoute,
                 private change: ChangeDetectorRef,
@@ -187,7 +188,7 @@ export class SectionComponent implements OnInit, OnDestroy {
             this.changeViewButtonTitle = showGrouped;
         }
 
-        const typesUrl = Utils.getImplementationOrTemplateOfType(this.toscaType);
+        const typesUrl = Utils.getTypeOfTemplateOrImplementation(this.toscaType);
 
         if (!isNullOrUndefined(typesUrl)) {
             this.service.getSectionData('/' + typesUrl + '?grouped=angularSelect')

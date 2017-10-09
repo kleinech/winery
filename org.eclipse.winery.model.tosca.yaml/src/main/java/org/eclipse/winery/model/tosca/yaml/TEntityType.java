@@ -1,9 +1,9 @@
 /*******************************************************************************
  * Copyright (c) 2017 University of Stuttgart.
  * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
+ * are made available under the terms of the Eclipse Public License v2.0
  * and the Apache License 2.0 which both accompany this distribution,
- * and are available at http://www.eclipse.org/legal/epl-v10.html
+ * and are available at http://www.eclipse.org/legal/epl-v20.html
  * and http://www.apache.org/licenses/LICENSE-2.0
  *
  * Contributors:
@@ -201,7 +201,12 @@ public class TEntityType implements VisitorNode {
         }
 
         public T setMetadata(Metadata metadata) {
-            if (this.metadata == null) {
+            this.metadata = metadata;
+            return self();
+        }
+
+        public T addMetadata(Metadata metadata) {
+            if (Objects.isNull(this.metadata)) {
                 this.metadata = metadata;
             } else {
                 this.metadata.putAll(metadata);
@@ -209,10 +214,10 @@ public class TEntityType implements VisitorNode {
             return self();
         }
 
-        public T setMetadata(String key, String value) {
+        public T addMetadata(String key, String value) {
             Metadata metadata = new Metadata();
             metadata.put(key, value);
-            return self().setMetadata(metadata);
+            return addMetadata(metadata);
         }
 
         public T addProperties(Map<String, TPropertyDefinition> properties) {

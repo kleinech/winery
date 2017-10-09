@@ -48,13 +48,22 @@ public class TTag {
     @XmlAttribute(name = "value", required = true)
     protected String value;
 
+    public TTag() {
+
+    }
+
+    public TTag(Builder builder) {
+        this.name = builder.name;
+        this.value = builder.value;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof TTag)) return false;
         TTag tTag = (TTag) o;
         return Objects.equals(name, tTag.name) &&
-                Objects.equals(value, tTag.value);
+            Objects.equals(value, tTag.value);
     }
 
     @Override
@@ -98,5 +107,24 @@ public class TTag {
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public static class Builder {
+        private String name;
+        private String value;
+
+        public Builder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder setValue(String value) {
+            this.value = value;
+            return this;
+        }
+
+        public TTag build() {
+            return new TTag(this);
+        }
     }
 }

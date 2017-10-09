@@ -83,12 +83,17 @@ public class TCapability extends RelationshipSourceOrTarget {
         return "capability";
     }
 
-    public static class Builder extends RelationshipSourceOrTarget.Builder {
+    public static class Builder extends RelationshipSourceOrTarget.Builder<Builder> {
         private final String name;
 
         public Builder(String id, QName type, String name) {
             super(id, type);
             this.name = name;
+        }
+
+        @Override
+        public Builder self() {
+            return this;
         }
 
         public TCapability build() {
